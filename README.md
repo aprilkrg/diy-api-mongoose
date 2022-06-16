@@ -23,7 +23,7 @@ How we make it work:
 
 *Example:*
 
-| column name | type |
+| field name | type |
 |:-----------:|:----:|
 |name | string |
 |title | integer |
@@ -77,7 +77,7 @@ follow this example if you adding comments to the blog API example from before, 
 
 **Comment Model**
 
-| column name | type |
+| field name | type |
 |:-----------:|:----:|
 |blog | ObjectId(ref to blog) |
 |content | string |
