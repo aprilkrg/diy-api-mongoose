@@ -14,6 +14,6 @@ db.on("error", (err) => {
     console.warn("ERROR WITH MONGOOSE\n", err)
 })
 
-module.export = {
+module.exports = {
     Project: require("./Project")
 }
