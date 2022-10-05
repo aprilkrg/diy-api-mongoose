@@ -83,4 +83,26 @@ router.post("/", async(req,res) => {
     }
 })
 
+// ADD SKILL TO PROJECT
+// POST  /projects/:id/skill
+router.post("/:id/skill", async(req,res) => {
+    try {
+        const oneProject = await Project.findOne({
+            _id: req.params.id
+        })
+        console.log("PROJECT\n", oneProject)
+        const newSkill = {
+            name: req.body.name,
+            description: req.body.description
+        }
+        console.log("SKILL\n", newSkill)
+        oneProject.technologies.push(newSkill)
+        await oneProject.save
+        return res.status(200).json({oneProject})
+    }  catch(err) {
+        console.log(err)
+        return res.status(500).json({error: "Server Error"})        
+    }
+})
+
 module.exports = router
