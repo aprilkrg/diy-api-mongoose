@@ -15,6 +15,10 @@ db.on("error", (err) => {
     console.warn('ERROR WITH MONGOOSE\n', err)
 })
 
+module.exports = {
+    Project: require("./Project")
+}
+
 /**
  * WESTONS WHICH WORKED IMMEDIATELY
 db.once('open', () => console.log(`mongoDB connected @ ${db.host}:${db.port} ⛓`))

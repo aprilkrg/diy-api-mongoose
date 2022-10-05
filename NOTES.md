@@ -66,3 +66,126 @@ db.on("error", (err) => {
     console.warn("ERROR WITH MONGOOSE \n", err)
 })
 ```
+Export any model you create from the module exports in index.js
+```js
+module.exports = {
+    Project: require("./Project")
+}
+```
+
+## Build the models
+Require mongoose in the Project.js file. Then build the schemas for the embedded model (Skill) and the parent model we'll export by name (Project).
+```js
+const mongoose = require("mongoose")
+
+const SkillSchema = new mongoose.Schema({
+    name: {
+        type: String
+    },
+    description: {
+        type: String
+    }
+}, {
+    timestamps: true
+})
+
+const ProjectSchema = new mongoose.Schema({
+    title: {
+        type: String
+    },
+    deployed: {
+        type: Boolean
+    },
+    technologies: [SkillSchema]
+}, {
+    timestamps: true
+})
+
+module.exports = mongoose.model("Project", ProjectSchema)
+```
+
+
+## Write to db
+Create a file where we will test queries to the database.
+```bash
+touch testDb.js
+```
+Require the models directory and save it to a variable.
+```js 
+const db = require("./models")
+```
+Create a new project
+```js
+const createProject = async () => {
+    try {
+        const newProject = await db.Project.create({
+            title: "diy api",
+            deployed: true
+        })
+        console.log("NEW PROJ", newProject)
+    } catch(err) {
+        console.log(err)
+    }
+}
+createProject()
+```
+Comment out the invocation of createProject.
+
+Find that project by looking for the first deployed=true project.
+```js
+const findProject = async () => {
+    try {
+        const foundProject = await db.Project.findOne({
+            deployed: true
+        })
+        console.log("found PROJ", foundProject)
+    } catch(err) {
+        console.log(err)
+    }
+}
+findProject()
+```
+Comment out the invocation of findProject.
+
+Save the id that it returns to you as a string variable.
+```js
+const projectId = "633d99446f02dc45c2337cf9"
+```
+Update that project. `findOneAndUpdate` needs 3 objects, the search clause, the updated data, and {new: true} so it shows it to us. 
+```js
+const updateProject = async () => {
+    try {
+        const updatedProject = await db.Project.findOneAndUpdate(
+            {
+                _id: projectId
+            },
+            {
+                deployed: false
+            },
+            {
+                new: true
+            }
+        )
+        console.log("UPDATED PROJ", updatedProject)
+    } catch(err) {
+        console.log(err)
+    }
+}
+updateProject()
+```
+Comment out the invocation of updateProject.
+
+Find a project by the same saved id, and delete. Do not console log the project, only a string.
+```js
+const deleteProject = async () => {
+    try {
+        const deletedProject = await db.Project.findOneAndDelete({
+            _id: projectId
+        })
+        console.log("DELETED PROJ")
+    } catch(err) {
+        console.log(err)
+    }
+}
+deleteProject()
+```
