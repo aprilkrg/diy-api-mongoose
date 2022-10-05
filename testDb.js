@@ -60,4 +60,4 @@ const deleteProject = async () => {
 
 // updateProject()
 
-deleteProject()
+// deleteProject()

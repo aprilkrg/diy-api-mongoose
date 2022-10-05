@@ -189,3 +189,19 @@ const deleteProject = async () => {
 }
 deleteProject()
 ```
+
+## Create controllers
+
+Create directory and file for controllers.
+```bash
+mkdir controllers
+touch controllers/players.js
+```
+Set the server file to use the controllers whenever the url path starts with "/projects".
+```js
+app.use('/project', require('./controllers/projects'))
+```
+Set the server up to parse json.
+```js
+app.use(express.json())
+```
